@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Home</title>
 </head>
 <body>
-
 	<style type="text/css">
-
 		table {
 			border-collapse: collapse;
 			margin: 0 auto;
@@ -18,159 +16,140 @@
 			color: #b5a8a8;
 			text-align: center;
 		}
-
 		.black {
 			background: dimgrey;
 		}
-
 		.redcol {
 			background: red;
 		}
-
 		td:hover {
 			cursor: pointer;
 		}
-
 	</style>
 
 	<div id="chess">
 		<h2 style="text-align: center;">Chess Board</h2>
-		<table id="ch"></table>
+		<table id="chessboard"></table>
 	</div>
 
 	<script type="text/javascript">
-		
-		var row    = 8;
-		var column = 8;
+		//var row = 8 , column = 8 , str = '', counter = 0 , borderPoints = [];
+		//var totalSize = row * column;
 
-		var totalSize = row * column;
-		var str = "";
-		var counter = 0;
-		for (var i = 1; i <= totalSize; i++) {
-
-			if(i == 1) {
-				str +="<tr>";
-			}
-
-			var classText = "";
-			if(counter % 2 == 0) {
-
-				if(i % 2 == 0) {
-					classText = 'black';
-				} else {
-					classText = 'white';
-				}
-
-			} else {
-				if(i % 2 == 0) {
-					classText = 'white';
-				} else {
-					classText = 'black';
-				}
-			}
-
-			str += "<td id='elemnt_"+i+"' data-id="+i+" class='tdata "+classText+"'></td>";
-
-			if( i % row == 0 && totalSize != i ) {
-				str += "</tr>";
-				str += "<tr>";
-				counter++;
-			}
-			
-			if(totalSize == i) {
-				str += "</tr>";
-			}
-		}
-
-		var textcontent = document.getElementById("ch");
-		textcontent.innerHTML = str;
-
-		var sd = document.getElementsByClassName('tdata');
-		for (var i = 0; i < sd.length; i++) { //Binding Event Listener to all the td elemnets
-			sd[i].addEventListener("click" , function(e) {
-				var selectedelemnt = e.target.getAttribute('data-id');
-				loopit(selectedelemnt);
-			});
-		}
-
-		var borderPoints = []
-		function borderPointsL() {
-			borderPoints = [];
-			var sum = totalSize;
-			var diff = 1;
-			for (var i = 1; i < row; i++) {
-				borderPoints.push(i);
-				borderPoints.push(row * i);
-				diff+=row;
-				sum -= 1;
-				borderPoints.push(diff);
-				borderPoints.push(sum);
-			}
-		}
-
-		function getitems(item , value) {
-			var arL = [];
-			for (var i = 0; i < 7; i++) {
-				
-				item+=value;
-
-				if(item < 1 || item > totalSize) {
-					break;
-				}
-
-				if(borderPoints.indexOf(item) > -1) {
-					if(i == 0) {
-						break;
+		var mainObj = {
+			row : 8,
+			column : 8,
+			str : '',
+			counter : 0,
+			borderPoints: [],
+			getTotalSize : function() { //Total grids
+				return this.row * this.column;
+			},
+			generateTable : function() { 
+				var str = "";
+				var totalSize = this.getTotalSize();
+				for (var i = 1; i <= totalSize; i++) {
+					if(i == 1) {
+						str +="<tr>";
+					}
+					var classText = "";
+					if(this.counter % 2 == 0) {
+						if(i % 2 == 0) {
+							classText = 'black';
+						} else {
+							classText = 'white';
+						}
 					} else {
-						arL.push(item);
+						if(i % 2 == 0) {
+							classText = 'white';
+						} else {
+							classText = 'black';
+						}
+					}
+					str += "<td id='elemnt_"+i+"' data-id="+i+" class='tdata "+classText+"'></td>";
+					if( i % this.row == 0 && totalSize != i ) {
+						str += "</tr>";
+						str += "<tr>";
+						this.counter++;
+					}
+					if(totalSize == i) {
+						str += "</tr>";
+					}
+				}
+				return str;
+			},
+			borderPointsL: function() {
+				this.borderPoints = [];
+				var sum = this.getTotalSize();
+				var diff = 1;
+				for (var i = 1; i < this.row; i++) {
+					this.borderPoints.push(i);
+					this.borderPoints.push(this.row * i);
+					diff+=this.row;
+					sum -= 1;
+					this.borderPoints.push(diff);
+					this.borderPoints.push(sum);
+				}
+			},
+			getitems:function(item , value) { 
+				var arL = [];
+				for (var i = 0; i < 7; i++) {
+					item+=value;
+					if(item < 1 || item > this.getTotalSize()) {
 						break;
 					}
-				} else {
-					arL.push(item);
+					if(this.borderPoints.indexOf(item) > -1) {
+						if(i == 0) {
+							break;
+						} else {
+							arL.push(item);
+							break;
+						}
+					} else {
+						arL.push(item);
+					}
 				}
+				return arL;
+			},
+			loopGrids : function(selectedelemnt) {
+				var selectedelemnt = parseInt(selectedelemnt);
+				var all = document.getElementsByClassName("tdata");
+				for (var i = 0; i < all.length; i++) {
+					all[i].removeAttribute("style");
+				}
+				this.borderPointsL(); //get Border Grids
+				document.getElementById('elemnt_'+selectedelemnt).style.background = "red";
 
+				//down-right
+				var ar1 = this.getitems(selectedelemnt, 9);
+				console.log("ar1", ar1);
+				//down-left
+				var ar2 = this.getitems(selectedelemnt, 7);
+				console.log("ar2", ar2);
+				//up-left
+				var ar3 = this.getitems(selectedelemnt , -9);
+				console.log("ar3", ar3);
+				//up-right
+				var ar4 = this.getitems(selectedelemnt, -7);
+				console.log("ar4", ar4);
+
+				var finalArray = ar1.concat( ar2 , ar3 , ar4);
+				finalArray.forEach(function(element) {
+					document.getElementById('elemnt_'+element).style.background = "red";
+				});
 			}
-			return arL;
-		}
+		};
 
-		function loopit(selectedelemnt) {
-			
-			var selectedelemnt = parseInt(selectedelemnt);
-			console.log(selectedelemnt);
-			var all = document.getElementsByClassName("tdata");
-
-			for (var i = 0; i < all.length; i++) {
-				all[i].removeAttribute("style");
-			}
-			
-			borderPointsL();
-
-			document.getElementById('elemnt_'+selectedelemnt).style.background = "red";
-			
-			//down-right
-			var ar1 = getitems(selectedelemnt, 9);
-			console.log("ar1", ar1);
-			//down-left
-			var ar2 = getitems(selectedelemnt, 7);
-			console.log("ar2", ar2);
-			//up-left
-			var ar3 = getitems(selectedelemnt , -9);
-			console.log("ar3", ar3);
-			//up-right
-			var ar4 = getitems(selectedelemnt, -7);
-			console.log("ar4", ar4);
-
-			var finalArray = ar1.concat( ar2 , ar3 , ar4);
-
-			console.log("finalArray", finalArray);
-
-			finalArray.forEach(function(element) {
-				document.getElementById('elemnt_'+element).style.background = "red";
-			});
-			
-		}
+		var textcontent = document.getElementById("chessboard");
+		textcontent.innerHTML = mainObj.generateTable();
 		
+		var tdElements = document.getElementsByClassName('tdata');
+		var tdElementsLength = tdElements.length;
+		for (var i = 0; i < tdElementsLength; i++) { //Binding Event Listener to all the td elemnets
+			tdElements[i].addEventListener("click" , function(e) {
+				mainObj.loopGrids(e.target.getAttribute('data-id'));
+			});
+		}
 	</script>
-  
 </body>
 </html>
