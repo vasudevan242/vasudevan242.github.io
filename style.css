@@ -501,7 +501,6 @@ aside li:nth-child(8) {
 @media (min-width: 576px) and (max-width: 767.98px) { 
 	
 	aside {
-		1background: red;
 		display: none;
 	}
 	
@@ -568,7 +567,6 @@ aside li:nth-child(8) {
 	
 	aside {
 		display: none;
-		1background: green;
 	}
 
 	section {
@@ -651,18 +649,10 @@ aside li:nth-child(8) {
 		padding:10px 15px;
 		font-size: 0.8em;
 	}
-	aside {
-		background:pink;
-	}
 	
 }
 
 @media (min-width: 1200px) { 
-	
-	aside {
-		background: pursple;
-	}
-
 	.trans-items {
 		flex-wrap: wrap;
 	}
