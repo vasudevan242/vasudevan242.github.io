@@ -43,6 +43,9 @@
 	text-align: center;
 	display: block;
 	padding: 25px;
+	text-decoration: none;
+	color: #000;
+	background: #fff;
 }
 
 .nav-items li a {
@@ -110,13 +113,10 @@ aside li:nth-child(8) {
 .sec_header {
 	display: flex;
 	margin-bottom: 25px;
+	flex-wrap: wrap;
 }
 .header_date {
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	-o-flex: 1;
-	flex: 1;
+	flex: 2;
 	padding-left: 25px;
 }
 
@@ -133,7 +133,12 @@ aside li:nth-child(8) {
 	top: 5px;
     left: -18px;
     font-size: 0.6em;
+}
 
+.calde {
+	position: absolute;
+	padding-left: 20px;
+	color: #a3a3a3;
 }
 
 .header_date_info:after {
@@ -227,6 +232,7 @@ aside li:nth-child(8) {
 .chart-link2 ul {
 	display: flex;
 	justify-content: space-evenly;
+	flex-wrap: wrap;
 }
 .chart-link2 li {
 	list-style: none;
@@ -322,8 +328,6 @@ aside li:nth-child(8) {
 	text-decoration: none;
 	text-align: center;
 	color: #ced2d1;
-	display: block;
-
 }
 
 .trans-items li a:hover {
@@ -495,6 +499,15 @@ aside li:nth-child(8) {
 
 	.chart2 img {
 		width: 50%;
+	}
+	
+	.chart-link2 li {
+		
+	}
+	.chart-link2 .btn {
+	 margin-top: 15px;
+	 display: block;
+	  padding: 10px;
 	}
 }
 
